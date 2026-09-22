@@ -14,10 +14,10 @@ menu(){
 menu
 
 
-while $opcion -ne 5; do
+while true ; do
 read -p "Introduzca una de las anteriores opciones: " opcion
 
-if [[$opcion -eq 5]]; then
+if [[ $opcion -eq 5 ]]; then
     exit
 fi
 read -p "Introduzca un numero: " num1

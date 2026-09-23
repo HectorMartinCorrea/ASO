@@ -1,5 +1,8 @@
-for entrada in /home/hecmarcor/prueba_bash/*; do
-nombre = $(basename "$entrada")
+#!/bin/bash
+for entrada in "./bash"; do
 if [[ -d $entrada ]]; then
-    echo $nombre directorio
+    echo "$(basename "$entrada") directorio"
+elif [ -f "$entrada" ]; then
+    echo "$(basename "$entrada") archivo"
 fi
+done

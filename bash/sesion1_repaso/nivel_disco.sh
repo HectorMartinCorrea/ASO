@@ -1,4 +1,4 @@
-
+#!/bin/bash
 porcentaje=$(echo "$1 * 100 / $2" | bc)
 echo $porcentaje 
 

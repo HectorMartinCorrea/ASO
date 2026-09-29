@@ -1,4 +1,4 @@
-
+#!/bin/bash
 if [[ $# = 0 ]]; then
     echo "Introduzca un parametro"
     exit

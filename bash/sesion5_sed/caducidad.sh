@@ -12,4 +12,7 @@ else
     exit
 fi
 
-sed -E "s/^(PASS_MAX_DAYS[[:space:]]+)[0-9]+/\1$1/" "./bash/sesion5_sed/lab-sed/login.defs"
+ruta="/c/Users/Héctor y Devin 1/Desktop/Github/ASO/ASO/bash/sesion5_sed/lab-sed/login.defs"
+
+sed -E "s/^(PASS_MAX_DAYS[[:space:]]+)[0-9]+/\1$1/" "$ruta"
+sed -i.bak -E "s/^(PASS_MAX_DAYS[[:space:]]+)[0-9]+/^(PASS_MAX_DAYS[[:space:]]+)$1/" "$ruta"

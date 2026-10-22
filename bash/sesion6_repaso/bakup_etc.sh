@@ -34,8 +34,11 @@ tar -czf "$dir_back/etc-$fecha.tar.gz" -C "/home/hecmarcor/prueba_bash/ASO/bash/
 cantidad=$(ls -1 "$dir_back"| grep -cE '^etc-.+\.tar.\gz')
 if [[ $cantidad -gt $num_cop ]]; then
     echo "Aviso el numero de copias $cantidad es superios al recomendado $num_cop"
+    aviso_cantidad=$(echo "Aviso el numero de copias $cantidad es superios al recomendado $num_cop")
 fi
-
-funcion:log() {
-    command ...
+archivo_creado= "$dir_back/etc-$fecha.tar.gz"
+funcion_log() {
+    local mensaje="$archivo_creado $archivo_creado"
+    echo  ""aso-backup" "$mensaje""
 }
+funcion_log

@@ -1,7 +1,11 @@
 #!/bin/bash
 listar_usuario(){
-        read -p "Introduzca un usuario: " usr
+    read -p "Introduzca un usuario: " usr
+    if [[ id $"usr" ]]; then  
         ps -u $usr -o  pid,stat,%cpu,%mem,cmd
+    else
+        echo "El usuario no existe"
+    fi 
     }
 buscar_proceso(){
     read -p "Introduzca el proceso que quiera listar: " funcion

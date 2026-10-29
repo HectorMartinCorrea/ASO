@@ -1,7 +1,8 @@
 #!/bin/bash
 listar_usuario(){
     read -p "Introduzca un usuario: " usr
-    if [[ id $"usr" ]]; then  
+    
+    if  id "$usr" &>/dev/null ; then  
         ps -u $usr -o  pid,stat,%cpu,%mem,cmd
     else
         echo "El usuario no existe"
@@ -12,13 +13,29 @@ buscar_proceso(){
     ps -C $funcion -o pid,user,%cpu,cmd
 }
 top_cpu(){
-    read -p "Introduzca el numero de procesos: " n
-    if [[ $n -eq 0 ]]; then
-        $n=5
+    read -p "Introduzca el numero de procesos: " veces
+    if [[ $veces =~ ^[0-9]+$ ]]; then
+        echo "El número de precesos es $veces"
     else
-       $n=$n 
+       veces=5
+       echo "El número de precesos es $veces"
     fi
-    ps -u hecmarcor -o  pid,stat,%cpu,%mem,cmd --sort=%cpu | head -n "$n"
+    ps -u hecmarcor -o  pid,stat,%cpu,%mem,cmd --sort=%cpu | head -n "$veces"
+}
+finalizar_proceso(){
+    read -p "Introduzca el pid del proceso: " pid
+    read -p "Seguro que quiere detener este proceso (s/n): " confirmacion
+    if [[ $confirmacion = "s" ]]; then
+        kill -15 $pid
+        sleep 3 
+        kill -9 $pid
+        echo "Proceso finalizado"
+
+    else 
+        echo "Operacion cancelada"
+        return
+    fi
+     
 }
 echo """
 ===== GESTIÓN DE PROCESOS =====
@@ -41,6 +58,9 @@ while [[ $opcion -ne 6 ]]; do
             ;;
         3)
             top_cpu
+            ;;
+        5)
+            finalizar_proceso
             ;;
         6)
             exit

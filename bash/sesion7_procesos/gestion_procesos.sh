@@ -8,6 +8,14 @@ listar_usuario(){
         echo "El usuario no existe"
     fi 
     }
+validar_pid() {
+    local pid="$1"
+    if [[ "$pid" =~ ^[0-9]+$ ]] && ps -p "$pid" &>/dev/null; then
+        validacion=1
+    else
+        validacion=0
+    fi
+}
 buscar_proceso(){
     read -p "Introduzca el proceso que quiera listar: " funcion
     ps -C $funcion -o pid,user,%cpu,cmd
@@ -24,6 +32,11 @@ top_cpu(){
 }
 finalizar_proceso(){
     read -p "Introduzca el pid del proceso: " pid
+    if validar_pid "$pid" -eq 1; then
+        echo "Error: el PID no es válido o el proceso no existe" 
+    else
+        echo "El pid existe"
+    fi
     read -p "Seguro que quiere detener este proceso (s/n): " confirmacion
     if [[ $confirmacion = "s" ]]; then
         kill -15 $pid
@@ -36,6 +49,23 @@ finalizar_proceso(){
         return
     fi
      
+}
+cambiar_prioridad() {
+     read -p "Introduzca el pid del proceso: " pid
+    if validar_pid "$pid" -eq 1; then
+        echo "Error: el PID no es válido o el proceso no existe" 
+        exit
+    else
+        echo "El pid existe"
+    fi
+    read -p "Nuevo valor nice: " valor_nice
+    if [[ valor_nice > 0 && valor_nice < 19 ]]; then
+        echo "Valores de nice correctos"
+    else
+        echo "Error: el nice no puede tener ese valor"
+        exit
+    fi
+    renice -n $valor_nice -p $pid
 }
 echo """
 ===== GESTIÓN DE PROCESOS =====
@@ -58,6 +88,9 @@ while [[ $opcion -ne 6 ]]; do
             ;;
         3)
             top_cpu
+            ;;
+        4)
+            cambiar_prioridad
             ;;
         5)
             finalizar_proceso
